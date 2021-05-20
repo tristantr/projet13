@@ -8,8 +8,6 @@ environ.Env.read_env()
 
 SECRET_KEY = env('SECRET_KEY')
 
-# SECRET_KEY = 'django-insecure-kvd&-n+pi+&tt0la^%8u1+^7okuxim19cc-a3-j19j2lj*+9d-'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
