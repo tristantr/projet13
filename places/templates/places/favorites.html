@@ -5,13 +5,29 @@
 {% block content %}
 
 {% if places %}
-<div class="row justify-content-center">
+<div class=" row justify-content-center">
     {% for place in places %}
+    <div class="justify-content-center">
         <div> {% display_place place=place %} </div>
+        <div class="d-flex justify-content-center">
+  			{% csrf_token %}
+  			<form method="post" action="{% url 'manage_favorites' %}" class="fav-form">
+				{% if place.is_favorite %}
+				<button type="submit" class="btn"  id="{{place.id}}">
+					<span name="fav" class="fas fa-heart fa-lg" id="{{place.id}}"></span>
+				</button>	
+				{% else %}
+				<button type="submit" class="btn"  id={{place.id}}>
+					<span name="fav" class="far fa-heart fa-lg" id="{{place.id}}"></span>
+				</button>	
+				{% endif %}				
+			</form>				
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% else %}
-<div class="row justify-content-center">
+<div class="row d-flex justify-content-center">
     <p> Votre liste de lieux favoris est vide ! </p>
 </div>
 {% endif %}

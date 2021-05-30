@@ -12,7 +12,7 @@
 	</div>
     <div class="row justify-content-center">
         {% for place in places %}
-            <div> {% display_place place=place %} </div>
+            <div> {% display_place place=place coordonates=coordonates %} </div>
         {% endfor %}
     </div>
  {% else %}

@@ -26,7 +26,6 @@
   		</div>	
   	</div>
     
-    
     <h5> {{ place.address }} </h5>
   </div>
   <div class="card-body">
@@ -38,29 +37,41 @@
 		{% endif %}	
 	</div>
 	<p class="mb-4"> <i class="fas fa-phone-alt mr-3"></i> {{place.phone}} </p>
-<!-- 	<div> 
-		<h5 class="mb-4">Horaires d'ouverture : </h5>
-		<table class="table">
-		  <thead class="thead-dark">
-		    <tr>
-		      <th scope="col">Jour</th>
-		      <th scope="col">Ouverture</th>
-		      <th scope="col">Fermeture</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  	{% for day in place.opening_hours %}
-		  	<tr>x
-		      <td>Lundi</td>
-		      <td>{{day.open.time}}</td>
-		      <td>{{day.close.time}}</td>
-		    </tr>
-		    {% endfor %}		    
-		  </tbody>
-		</table>
-	</div> -->
   </div>
+  <div id="map" style=" height: 30rem; width: 30rem"></div>
 </div>
+
+<script lat="{{ place.coordonates.lat }}",
+		lng="{{ place.coordonates.lng }}",
+		my_lat="{{ my_lat }}",
+		my_lng="{{ my_lng }}",
+		id="map_script">
+	let script = document.getElementById('map_script')
+	let lat = parseFloat(script.getAttribute('lat'))
+	let lng = parseFloat(script.getAttribute('lng'))
+	let my_lat = parseFloat(script.getAttribute('my_lat'))
+	let my_lng = parseFloat(script.getAttribute('my_lng'))
+
+	function initMap(){
+		var options = {
+			zoom: 17,
+			center:{lat:lat, lng:lng}
+		}
+		var map = new google.maps.Map(document.getElementById('map'), options)
+
+		var my_marker = new google.maps.Marker({
+			position: {lat: my_lat, lng: my_lng},
+			map:map
+		})
+		var marker = new google.maps.Marker({
+			position: {lat:lat, lng:lng},
+			map:map
+		})
+	}
+</script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD7JddiwdM6f2evoQK8sr4KaUnWdL25z4&callback=initMap">
+</script>
 
 
 {% endblock %}

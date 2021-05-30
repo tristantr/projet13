@@ -20,6 +20,7 @@ def get_place_dict(place_id, user_id):
     place = {}
     place['id'] = place_id
     place['name'] = response_json['name']
+    place['coordonates'] = response_json['geometry']['location']
     place['address'] = response_json['formatted_address']
     place['phone'] = response_json['formatted_phone_number']
     place['is_open'] = response_json['opening_hours']['open_now']

@@ -6,6 +6,7 @@ from .managers import get_place_dict, find_place_with_google_api, find_nearby_pl
 import requests
 import json
 import environ
+import ast
 
 from .constants import PLACES
 
@@ -16,11 +17,11 @@ environ.Env.read_env()
 
 
 def index(request):
-    """View function for home page of site."""
+    """ Go to home page """
     return render(request, "index.html")
 
 def get_places(request):
-    """ Call Google APIs"""
+    """ Get places using various google api calls """
     address = request.GET.get("q")
     type = request.GET['type']
     distance = request.GET['distance']
@@ -40,6 +41,7 @@ def get_places(request):
                 places.append(place)
              
         context = {
+            'coordonates': coordonates,
             'places' : places,
             'address' :address,
             'type': PLACES[type],
@@ -49,22 +51,24 @@ def get_places(request):
     else:
         context = { 'places' : []}
         return render(request, "places/results.html", context=context)   
-            
-
-#### GERER L'ERREUR
-
-    ## if status = ZERO_RESULTS faire quelque chose
 
 
 def get_place_details(request):
+    """ Get details of a specific place """
     place_id = request.GET.get("id")
-    print(place_id)
-    place = get_place_dict(place_id=place_id, user_id=request.user.id)    
+    coordonates = ast.literal_eval(request.GET.get("coordonates"))
+    place = get_place_dict(place_id, request.user.id)    
 
-    context = {'place': place}
+    context = {
+        'place': place, 
+        'my_lat': coordonates['lat'],
+        'my_lng': coordonates['lng']
+        }
+
     return render(request, "places/place_details.html", context=context)
 
 def manage_favorites(request):
+    """ Handle favorite section"""
     if request.method == 'POST' and request.is_ajax:
         place = request.POST.get('place_id')
         if Favorite.objects.filter(
@@ -82,6 +86,7 @@ def manage_favorites(request):
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 def get_favorites(request):
+    """ Display favorites """
     user = request.user.id
     favorites = Favorite.objects.filter(user_id=user)
     places = []

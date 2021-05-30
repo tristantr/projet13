@@ -9,5 +9,9 @@ PLACES = {
 	"church": "Eglise",
 	"dentist": "Dentistes",
 	"bar": "Bars",
-	"hair_care": "Coiffeurs"
+	"hair_care": "Coiffeurs",
+	"accounting": "Comptables",
+	"aquarium": "Aquariums",
+	"beauty_salon": "Salons de beauté",
+	"doctor": "Médecins"
 	}
