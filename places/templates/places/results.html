@@ -5,16 +5,20 @@
 {% block places %}
 
 
-<div class="my-5">
-    <h4> {{type}} à {{distance}} mètres de {{address}}</h4>
-</div>
+{% if places %}
 
-{% if results %}
+	<div class="my-5">
+	    <h4> {{type}} à {{distance}} mètres de {{address}}</h4>
+	</div>
     <div class="row justify-content-center">
-        {% for result in results %}
-            <div> {% display_place place=result %} </div>
+        {% for place in places %}
+            <div> {% display_place place=place %} </div>
         {% endfor %}
     </div>
+ {% else %}
+     <div class="row justify-content-center">
+        <p> Nous n'avons pas trouvé de résultat à votre recherche </p>
+    </div>	    
 
 {% endif %}
 

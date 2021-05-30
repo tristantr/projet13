@@ -21,7 +21,7 @@
 	    <ul class="navbar-nav">
 	        {% if user.is_authenticated %}
 	        <li class="nav-item active"><a class="nav-link" href="{% url 'my_account' %}">Mon Compte</a></li>
-	        <li class="nav-item active"><a class="nav-link" href="">Mes endroits préférés</a></li>
+	        <li class="nav-item active"><a class="nav-link" href="{% url 'get_favorites' %}">Mes lieux préférés</a></li>
 	        <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}">Déconnexion</a></li>
 
 	        {% else %}
