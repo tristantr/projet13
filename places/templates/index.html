@@ -1,44 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block body_content %}
+{% block content %}
 
-<header class="masthead">
-    <div class="row h-100 align-items-center justify-content-center text-center" id="home-page">
-        <div class="col-lg-10 align-self-end">
-            <h1 class="text-uppercase text-white font-weight-bold"> (Re)découvrez votre quartier ! </h1>
-            <hr class="divider my-4" />
-        </div>
-        <div class="col-lg-8 align-self-baseline">
-            <p class="text-white-75 font-weight-light mb-5">Restaurants, boulangeries, primeurs, poissoniers ... votre quartier n'aura plus aucun secret pour vous !</p>
-            <form action="{% url 'search_results' %}" method="get">
-                <input id="autocomplete" name="q" type="text" placeholder="Saisissez une adresse..." class="border-0 rounded p-1" required>
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Ajouter un filtre
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <input type="checkbox" name="restaurants" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Restaurants
-                        </label>
-                        <input type="checkbox" name="supermarkets" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Supermarchés
-                        </label>
-                        <input type="checkbox" name="bakeries" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Boulangeries
-                        </label>            
-                    </div>
-                </div>                  
-                <input type="submit" value="Rechercher" class="btn btn-primary">                
-            </form>
-
-        </div>
+<div class="row align-items-center justify-content-center text-center">
+    <div class="col-lg-10 align-self-end">
+        <h1 class="text-uppercase font-weight-bold" > (Re)découvrez votre quartier ! </h1>
+        <hr class="divider my-4" />
     </div>
-</header>
+    <div class="col-lg-8 align-self-baseline">
+        <p class="text-white-75 font-weight-light mb-5">Restaurants, boulangeries, primeurs, poissoniers ... votre quartier n'aura plus aucun secret pour vous !</p>
+        <form action="{% url 'search_results' %}" method="get" class="mb-4">
+            <div class="row justify-content-center mb-4">
+                <input id="autocomplete" name="q" type="text" placeholder="Saisissez une adresse..." class="col-6 border-1 rounded p-1 mx-1" required>
+
+                <select name="type" class="col-4 rounded p-2" required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="bar">Bar</option>
+                    <option value="bakery">Boulangerie</option>
+                    <option value="cafe">Café</option>
+                    <option value="hair_care">Coiffeur</option>
+                    <option value="dentist">Dentiste</option>
+                    <option value="church">Eglise</option>
+                    <option value="art_gallery">Galerie d'art</option>
+                    <option value="book_store">Magasin de livres</option>
+                    <option value="bicycle_store">Magasin de vélos</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="supermarket">Supermarché</option>                 
+                </select>
+            </div>    
+            <label for="customRange3" class="form-label">Sélectionnez une distance</label></br>
+            <input name="distance" type="range" value="400" min="200" max="1000" step="100" oninput="this.nextElementSibling.value = this.value">
+            <output class="mx-3">400</output></br>
+
+
+            <input type="submit" value="Rechercher" class="btn btn-primary mt-2">         
+        </form>
+
+        {% block places %}{% endblock %}
+
+    </div>
+</div>
+
 
 <script>
     function activatePlacesSearch() {

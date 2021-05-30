@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="border mx-5 rounded">
+  <div class="card-header">
+  	<div class="row">
+  		<div class="col-10">
+  			<h3> {{ place.name }} </h3>
+  		</div>
+  		<div class="col-2" id="favorite-section">
+  			{% csrf_token %}
+  			<form method="post" action="{% url 'manage_favorites' %}" class="fav-form">
+				{% if place.is_favorite %}
+				<button type="submit" class="btn"  id="{{place.id}}">
+					<span name="fav" class="fas fa-heart fa-lg" id="{{place.id}}"></span>
+				</button>	
+				{% else %}
+				<button type="submit" class="btn"  id={{place.id}}>
+					<span name="fav" class="far fa-heart fa-lg" id="{{place.id}}"></span>
+				</button>	
+				{% endif %}				
+			</form>				
+  		</div>	
+  	</div>
+    
+    
+    <h5> {{ place.address }} </h5>
+  </div>
+  <div class="card-body">
+	<div class="d-inline-flex mb-4">
+  		{% if place.is_open %}
+			<p class="card-text bg-success text-white rounded px-2">Ouvert</p>
+		{% else %}
+			<p class="card-text bg-danger text-white rounded px-2">Fermé</p>
+		{% endif %}	
+	</div>
+	<p class="mb-4"> <i class="fas fa-phone-alt mr-3"></i> {{place.phone}} </p>
+<!-- 	<div> 
+		<h5 class="mb-4">Horaires d'ouverture : </h5>
+		<table class="table">
+		  <thead class="thead-dark">
+		    <tr>
+		      <th scope="col">Jour</th>
+		      <th scope="col">Ouverture</th>
+		      <th scope="col">Fermeture</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for day in place.opening_hours %}
+		  	<tr>x
+		      <td>Lundi</td>
+		      <td>{{day.open.time}}</td>
+		      <td>{{day.close.time}}</td>
+		    </tr>
+		    {% endfor %}		    
+		  </tbody>
+		</table>
+	</div> -->
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% load custom_tags %}
+{% load static %}
+
+<form action="{% url 'place_details' %}" method="get" class="mb-4">
+  	<div class="col-3 m-3" style="width: 18rem; height: 13rem">
+	  <button type="submit" class="card-body card" style="width:15rem; height: 13rem">
+	  	<div class="d-flex flex-row-reverse bd-highlight p-2 mb-2">
+		  	{% if place.is_open %}
+				<p class="card-text bg-success text-white rounded px-2">Ouvert</p>
+			{% else %}
+				<p class="card-text bg-danger text-white rounded px-2">Fermé</p>
+			{% endif %}	
+		</div>
+		<div class="justify-content-center">
+			<h5>{{ place.name }}</h5>
+			<p>{{ place.address }}</p>
+			<i class="fas fa-chevron-circle-right text-primary"></i>
+		</div>				
+	  </buttton>
+	</div>
+	 <input type="hidden" name="id" value="{{ place.place_id }}">
+
+		  
+</form>	

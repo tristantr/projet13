@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block places %}
+
+
+<div class="my-5">
+    <h4> {{type}} à {{distance}} mètres de {{address}}</h4>
+</div>
+
+{% if results %}
+    <div class="row justify-content-center">
+        {% for result in results %}
+            <div> {% display_place place=result %} </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+
+{% endblock %}
