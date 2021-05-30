@@ -8,6 +8,7 @@ class UserManager(BaseUserManager):
     def create_user(
         self,
         email,
+        pseudo=None,
         password=None,
         is_active=True,
         is_staff=False,
@@ -16,12 +17,15 @@ class UserManager(BaseUserManager):
         """Creates and saves a User with the given email and password"""
         if not email:
             raise ValueError("Users must have an email address")
+        if not pseudo:
+            raise ValueError("Users mus have a pseudo")             
         if not password:
             raise ValueError("Users must have a password")
 
         user = self.model(email=self.normalize_email(email))
-
+        user.pseudo = pseudo
         user.set_password(password)
+
         user.staff = is_staff
         user.admin = is_admin
         user.active = is_active
@@ -30,13 +34,14 @@ class UserManager(BaseUserManager):
 
     def create_staffuser(self, email, password=None):
         """Creates and saves a superuser with the given email and password"""
-        user = self.create_user(email, password=password, is_staff=True)
+        user = self.create_user(email, pseudo=pseudo, password=password, is_staff=True)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, pseudo, password=None):
         """Creates and saves a superuser with the given email and password"""
         user = self.create_user(
-            email,
+            email=email,
+            pseudo=pseudo,
             password=password,
             is_staff=True,
             is_admin=True
@@ -51,12 +56,13 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name="email address",
         max_length=255, unique=True)
+    pseudo = models.CharField(max_length=20, default='pseudo')    
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)  # a admin user, non super-user
     admin = models.BooleanField(default=False)  # a superuser
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []  # USERNAME_FIELD & Password are required by default
+    REQUIRED_FIELDS = ["pseudo"]  # USERNAME_FIELD & Password are required by default
 
     objects = UserManager()
 
@@ -90,3 +96,12 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+class Favorite(models.Model):
+    """ Favorite model """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    place = models.CharField(max_length=100, default="key")
+
+
+
+

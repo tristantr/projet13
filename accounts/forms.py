@@ -19,6 +19,18 @@ class CreateUserForm(UserCreationForm):
             }
         ),
     )
+
+    pseudo = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+            "id":"pseudo",
+            "class": "form-control",
+            "placeholder": "Pseudo",
+            "style": "font-size: 1.1rem",
+            }))
+
+
     password1 = forms.CharField(
         max_length=16,
         widget=forms.PasswordInput(
@@ -44,7 +56,7 @@ class CreateUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["email", "password1", "password2"]
+        fields = ["email", "pseudo", "password1", "password2"]
 
 
 class LoginForm(forms.Form):
