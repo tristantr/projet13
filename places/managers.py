@@ -9,6 +9,7 @@ environ.Env.read_env()
 
 
 def get_place_dict(place_id, user_id):
+    """ Generate custom dict with place details """
     payload = {
         'placeid': place_id,
         'key': env('GOOGLE_KEY')}
@@ -37,6 +38,7 @@ def get_place_dict(place_id, user_id):
     return place    
 
 def find_place_with_google_api(address):
+    """ Find a place coordonates using text input """
     payload = {
         "input": "{}".format(address),
         "inputtype": "textquery",
@@ -60,6 +62,7 @@ def find_place_with_google_api(address):
     return coordonates
 
 def find_nearby_places_with_google_api(coordonates, distance, type):
+    """ Find nearby places using coordonates, distance, dans place type """
     payload = {
         "location": f"{coordonates['lat']},{coordonates['lng']}",
         "radius": distance,
