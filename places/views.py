@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from .managers import get_place_dict, find_place_with_google_api, find_nearby_places_with_google_api
+from .managers import get_place_dict, get_place, get_nearby_places, get_cards_dict
 
 import requests
 import json
@@ -25,20 +25,11 @@ def get_places(request):
     address = request.GET.get("q")
     type = request.GET['type']
     distance = request.GET['distance']
-    coordonates = find_place_with_google_api(address)
+    coordonates = get_place(address)
 
     if coordonates:
-        results = find_nearby_places_with_google_api(coordonates, distance, type)
-        places = []
-
-        for result in results:
-            if result.get('opening_hours') and result.get('vicinity'):
-                place = {}
-                place['id'] = result['place_id']
-                place['name'] = result['name']
-                place['address'] = result['vicinity']
-                place['is_open'] = result['opening_hours']['open_now']
-                places.append(place)
+        results = get_nearby_places(coordonates, distance, type)
+        places = get_cards_dict(results)
              
         context = {
             'coordonates': coordonates,

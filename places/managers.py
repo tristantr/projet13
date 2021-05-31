@@ -7,6 +7,20 @@ from accounts.models import Favorite
 env = environ.Env()
 environ.Env.read_env()
 
+def get_cards_dict(results):
+    places = []
+    for result in results:
+        if result.get('opening_hours') and result.get('vicinity'):
+            place = {}
+            place['id'] = result['place_id']
+            place['name'] = result['name']
+            place['address'] = result['vicinity']
+            place['is_open'] = result['opening_hours']['open_now']
+            places.append(place)
+
+    return places        
+
+
 
 def get_place_dict(place_id, user_id):
     """ Generate custom dict with place details """
@@ -37,7 +51,7 @@ def get_place_dict(place_id, user_id):
 
     return place    
 
-def find_place_with_google_api(address):
+def get_place(address):
     """ Find a place coordonates using text input """
     payload = {
         "input": "{}".format(address),
@@ -61,7 +75,7 @@ def find_place_with_google_api(address):
 
     return coordonates
 
-def find_nearby_places_with_google_api(coordonates, distance, type):
+def get_nearby_places(coordonates, distance, type):
     """ Find nearby places using coordonates, distance, dans place type """
     payload = {
         "location": f"{coordonates['lat']},{coordonates['lng']}",
