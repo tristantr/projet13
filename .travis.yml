@@ -4,6 +4,8 @@ python:
 
 before_script:
       - pip install -r requirements.txt
+      - touch .env
+      - echo SECRET_KEY=$SECRET_KEY >> .env
 
 branches:
   only:
