@@ -1,0 +1,16 @@
+language: python
+python:
+      - '3.8.5'
+
+branches:
+  only:
+      - master 
+
+env:        
+      - DJANGO_SETTINGS_MODULE="projet_8.settings.travis"
+
+services: 
+      - postgresql
+
+script:
+      - ./manage.py test
