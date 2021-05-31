@@ -11,7 +11,14 @@ branches:
 
 env:        
       - DJANGO_SETTINGS_MODULE="projet_13.settings.travis"
+
+## Random data      
       - SECRET_KEY=randomzelriufm1694687946
+      - DATABASE_NAME=name
+      - DATABASE_USER=user
+      - DATABASE_PASS=password
+      - DATABASE_HOST=host
+      - DATABASE_PORT=5432
 
 services: 
       - postgresql
