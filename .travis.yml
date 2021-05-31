@@ -4,10 +4,10 @@ python:
 
 branches:
   only:
-      - master 
+      - main 
 
 env:        
-      - DJANGO_SETTINGS_MODULE="projet_8.settings.travis"
+      - DJANGO_SETTINGS_MODULE="projet_13.settings.travis"
 
 services: 
       - postgresql
