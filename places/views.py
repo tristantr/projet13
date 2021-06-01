@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from .managers import get_place_dict, get_place, get_nearby_places, get_cards_dict
+# from .managers import get_place_dict, get_place, get_nearby_places, get_cards_dict
+
+from .managers import GoogleApi
 
 import requests
 import json
@@ -15,6 +17,7 @@ from accounts.models import Favorite
 env = environ.Env()
 environ.Env.read_env()
 
+google_api = GoogleApi()
 
 def index(request):
     """ Go to home page """
@@ -25,11 +28,11 @@ def get_places(request):
     address = request.GET.get("q")
     type = request.GET['type']
     distance = request.GET['distance']
-    coordonates = get_place(address)
+    coordonates = google_api.get_place(address)
 
     if coordonates:
-        results = get_nearby_places(coordonates, distance, type)
-        places = get_cards_dict(results)
+        results = google_api.get_nearby_places(coordonates, distance, type)
+        places = google_api.get_cards_dict(results)
              
         context = {
             'coordonates': coordonates,
@@ -48,7 +51,7 @@ def get_place_details(request):
     """ Get details of a specific place """
     place_id = request.GET.get("id")
     coordonates = ast.literal_eval(request.GET.get("coordonates"))
-    place = get_place_dict(place_id, request.user.id)    
+    place = google_api.get_place_dict(place_id, request.user.id)    
 
     context = {
         'place': place, 
@@ -83,7 +86,7 @@ def get_favorites(request):
     places = []
 
     for favorite in favorites:
-        place = get_place_dict(place_id=favorite.place, user_id=user)
+        place = google_api.get_place_dict(place_id=favorite.place, user_id=user)
         places.append(place)
 
     context = {'places': places}    
