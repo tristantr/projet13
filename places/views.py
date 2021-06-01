@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-# from .managers import get_place_dict, get_place, get_nearby_places, get_cards_dict
-
 from .managers import GoogleApi
 
 import requests
@@ -52,7 +50,6 @@ def get_place_details(request):
     place_id = request.GET.get("id")
     coordonates = ast.literal_eval(request.GET.get("coordonates"))
     place = google_api.get_place_dict(place_id, request.user.id)    
-
     context = {
         'place': place, 
         'my_lat': coordonates['lat'],

@@ -31,17 +31,19 @@ class GoogleApi:
         response = requests.get("https://maps.googleapis.com/maps/api/place/details/json",
                 params=payload)
 
-        response_json = response.json()['result']
+        response_json = response.json()['result']           
 
         place = {}
         place['id'] = place_id
         place['name'] = response_json['name']
         place['coordonates'] = response_json['geometry']['location']
         place['address'] = response_json['formatted_address']
-        place['phone'] = response_json['formatted_phone_number']
+        place['phone'] = response_json.get('formatted_phone_number', 'Non connu')
         place['is_open'] = response_json['opening_hours']['open_now']
-        place['opening_hours'] = response_json['opening_hours']['periods']
+        unformatted_hours = response_json['opening_hours']['weekday_text']
+        place['opening_hours'] = self.format_datetime(unformatted_hours)
         place['types'] = response_json['types']
+        place['reviews'] = response_json['reviews']
 
         if Favorite.objects.filter(
             user_id=user_id,
@@ -49,8 +51,18 @@ class GoogleApi:
             place['is_favorite'] = True
         else:
             place['is_favorite'] = False
+        return place
 
-        return place    
+    def format_datetime(self, datetime):
+        opening_hours = []
+        for string in datetime:
+            day = {}
+            datetime = string.split(": ")
+            day['day'] = datetime[0]
+            day['hours'] = datetime[1]
+            opening_hours.append(day)
+        return opening_hours   
+
 
     def get_place(self, address):
         """ Find a place coordonates using text input """

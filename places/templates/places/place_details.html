@@ -28,18 +28,61 @@
     
     <h5> {{ place.address }} </h5>
   </div>
-  <div class="card-body">
-	<div class="d-inline-flex mb-4">
-  		{% if place.is_open %}
-			<p class="card-text bg-success text-white rounded px-2">Ouvert</p>
-		{% else %}
-			<p class="card-text bg-danger text-white rounded px-2">Fermé</p>
-		{% endif %}	
-	</div>
-	<p class="mb-4"> <i class="fas fa-phone-alt mr-3"></i> {{place.phone}} </p>
-  </div>
-  <div id="map" style=" height: 30rem; width: 30rem"></div>
+	<div class="m-3">	
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+				<a href="#infos" class="nav-link active" role="tab" data-toggle="tab">Informations générales</a>
+			</li>
+
+			<li class="nav-item">
+				<a href="#reviews" class="nav-link" role="tab" data-toggle="tab">Commentaires</a>
+			</li>
+
+		</ul>
+
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="infos">
+			  <div class="card-body">
+			  	<div class="row">
+			  		<div class="col-6">
+							<div class="d-inline-flex mb-4">
+						  	{% if place.is_open %}
+									<p class="card-text bg-success text-white rounded px-2">Ouvert</p>
+								{% else %}
+									<p class="card-text bg-danger text-white rounded px-2">Fermé</p>
+								{% endif %}	
+							</div>
+							<p class="mb-4"> <i class="fas fa-phone-alt mr-3"></i> {{place.phone}} </p>
+							<div>
+								{% for datetime in place.opening_hours %}
+								<div class="row">
+									<div class="col-3">{{datetime.day}}</div>
+									<div class="col-9">{{datetime.hours}}</div>						
+								</div>
+								{% endfor %}					
+							</div>	
+			  		</div>
+			  		<div class="col-6" id="map" style=" height: 30rem; width: 30rem"></div>
+			  	</div>
+			  </div>				
+
+			</div>
+			<div role="tabpanel" class="tab-pane" id="reviews">
+				{% for review in place.reviews %}
+			<div class="row">
+			  <div class="card-body">
+			    <h5 class="card-title">{{ review.author_name }}</span>- {{ review.rating }}</h5>
+			    <p>{{review.relative_time_description }}</p>
+			    <p>{{ review.text }}</p>
+			    <p> __________________ </p>
+   			</div>
+			</div>					
+				{% endfor %}
+			</div>
+		</div>
+	</div>  
 </div>
+
 
 <script lat="{{ place.coordonates.lat }}",
 		lng="{{ place.coordonates.lng }}",
@@ -54,7 +97,7 @@
 
 	function initMap(){
 		var options = {
-			zoom: 17,
+			zoom: 15,
 			center:{lat:lat, lng:lng}
 		}
 		var map = new google.maps.Map(document.getElementById('map'), options)
