@@ -9,8 +9,10 @@ branches:
   only:
       - main
 
-env:        
+env:
+  gobal:            
       - DJANGO_SETTINGS_MODULE="projet_13.settings.travis"
+      - secure : "HFhxMH74+Els6RwAoheZ0bGkDR1k8MCpPzudHg+t6tsvEAPw2UjlARfHXk87UgXmrzW980EPnDyzkv2NXibNqfHxdopY7GReT76Dmt+OEvcZDxgBZiELui/OKhfNYF3S7PRAOYXEfj+G1A5qz3wKJb90E+qZmNP6+Ml9pU5YGIBRTLHo6EOGQVLhA5Etj9ZCCVOFEpyu8r4VmVCZxaM7KiFi36g8Z7cTPKnjolYyIDec4j24cfHGwJXKnjYSq83TGusRFjkFpy+jrIwwPKPmcPbBN6d1dCB8vo9Ym6W6B/4WyQYNoZdf8GAWW3wKHgWl9hcyESO6w/Dx2OEtJMAU24BI0pWOas0KmOadDrJzpSujdQ62WC42ms9FsO8LxBKTTrbc1TeAgOcvif2UBx6qgV+ai467Soe0Na6OSdcOB2mTSxAhE8TObmgp/DUOHVlpCW2Ke1WZLJJ4h0IDT+wc2v6R4MfNoiNuwBbu3XjaS8dAFIpF2pz/jonnXrasOhpIxMOfL7NPu7WxF3WlJahTgdLr5H8r1+2NIg1DgJctOTlL+haH4SHnQekLvjBjP+4WMXLx/lDcwgzc1mqU84BMtE5HEzTaU3OByX+UB+Ciqqaki1paPHos6JQ25ch4gH/qb8hchIVB/2zq8EcNHygqisbKXvtROYPrNsCKavDbMCA=" 
 
 services: 
       - postgresql
