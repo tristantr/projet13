@@ -3,7 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    """Manager for our user model"""
+    """Manager for the User Model"""
 
     def create_user(
         self,
@@ -102,6 +102,36 @@ class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     place = models.CharField(max_length=100, default="key")
 
+class CommentManager(models.Manager): 
+    """" Manager for the Comment Model """ 
+
+    def add_commment(self, place, user, body):
+        place = self.create(
+            place=place,
+            user=user,
+            body=body,
+            )
+        return place
+
+class Comment(models.Model):
+    place = models.CharField(max_length=100, default="key")
+    user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    objects = CommentManager()
+
+    def __str__(self):
+        return '%s - %s' % (self.user, self.date_added)
+
+    def get_comment(self):
+        comment = {
+        'place': self.place,
+        'user': self.user.pseudo,
+        'body': self.body,
+        'date_added': self.date_added
+        }
+        return comment
 
 
 

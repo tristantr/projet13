@@ -33,9 +33,12 @@
 			<li class="nav-item">
 				<a href="#infos" class="nav-link active" role="tab" data-toggle="tab">Informations générales</a>
 			</li>
+			<li class="nav-item">
+				<a href="#comments" class="nav-link" role="tab" data-toggle="tab">Avis SITE</a>
+			</li>			
 
 			<li class="nav-item">
-				<a href="#reviews" class="nav-link" role="tab" data-toggle="tab">Commentaires</a>
+				<a href="#reviews" class="nav-link" role="tab" data-toggle="tab">Commentaires Google</a>
 			</li>
 
 		</ul>
@@ -65,23 +68,44 @@
 			  		<div class="col-6" id="map" style=" height: 30rem; width: 30rem"></div>
 			  	</div>
 			  </div>				
-
+			</div>
+			<div role="tabpanel" class="tab-pane" id="comments">
+				{% if place.comments %} 
+					{% for comment in place.comments %}
+					<div class="row">
+					  <div class="card-body">
+					    <h5 class="card-title">{{ comment.user }}</h5>
+					    <p>{{ comment.date_added }}</p>
+					    <p>{{ comment.body }}</p>
+					    <p> __________________ </p>
+		   			</div>
+					</div>					
+					{% endfor %}
+				{% else %}
+					<p class="mt-3"> Il n'y a pas encore de commentaire ! </p>
+					<form action="{% url 'add_comment' %}" method="get" class="mb-4">
+						<input type="hidden" name="id" value={{place.id}}>
+						<input class="btn btn-primary" type="submit" value="Ajouter un commentaire">
+					</form>
+				{% endif %}	
 			</div>
 			<div role="tabpanel" class="tab-pane" id="reviews">
 				{% for review in place.reviews %}
-			<div class="row">
-			  <div class="card-body">
-			    <h5 class="card-title">{{ review.author_name }}</span>- {{ review.rating }}</h5>
-			    <p>{{review.relative_time_description }}</p>
-			    <p>{{ review.text }}</p>
-			    <p> __________________ </p>
-   			</div>
-			</div>					
+				<div class="row">
+				  <div class="card-body">
+				    <h5 class="card-title">{{ review.author_name }} - {{ review.rating }}</h5>
+				    <p>{{review.relative_time_description }}</p>
+				    <p>{{ review.text }}</p>
+				    <p> __________________ </p>
+	   			</div>
+				</div>					
 				{% endfor %}
 			</div>
 		</div>
 	</div>  
+
 </div>
+
 
 
 <script lat="{{ place.coordonates.lat }}",

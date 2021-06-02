@@ -2,7 +2,7 @@ import requests
 import json
 import environ
 
-from accounts.models import Favorite
+from accounts.models import Favorite, Comment
 
 class GoogleApi:
     def __init__(self):
@@ -44,6 +44,14 @@ class GoogleApi:
         place['opening_hours'] = self.format_datetime(unformatted_hours)
         place['types'] = response_json['types']
         place['reviews'] = response_json['reviews']
+
+        comments = Comment.objects.filter(place=place_id)
+        formatted_comments = []
+        for comment in comments:
+            formatted_comment = comment.get_comment()
+            formatted_comments.append(formatted_comment)
+
+        place['comments'] = formatted_comments
 
         if Favorite.objects.filter(
             user_id=user_id,

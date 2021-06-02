@@ -1,16 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.views.generic import CreateView
 
 from .managers import GoogleApi
+from .forms import CommentForm
 
 import requests
 import json
 import environ
 import ast
+from datetime import datetime
 
 from .constants import PLACES
 
-from accounts.models import Favorite
+from accounts.models import Favorite, Comment, User
 
 env = environ.Env()
 environ.Env.read_env()
@@ -49,7 +52,8 @@ def get_place_details(request):
     """ Get details of a specific place """
     place_id = request.GET.get("id")
     coordonates = ast.literal_eval(request.GET.get("coordonates"))
-    place = google_api.get_place_dict(place_id, request.user.id)    
+    place = google_api.get_place_dict(place_id, request.user.id)
+
     context = {
         'place': place, 
         'my_lat': coordonates['lat'],
@@ -91,3 +95,24 @@ def get_favorites(request):
     return render(request, "places/favorites.html", context=context)
 
 
+def add_comment(request):
+    """ Add a comment for a selected place """
+    place_id = request.GET.get("id")
+    user_id = request.user.id
+    user = User.objects.get(id=user_id)
+
+    form = CommentForm()
+    if request.method == "POST":
+        body = request.POST.get("body")
+        Comment.objects.create(
+            place=place_id,
+            user=user,
+            body=body
+            )
+        return render(request, 'index.html')
+
+    context = {"form": form}    
+    return render(request, "places/add_comment.html", context=context)
+
+
+    
