@@ -3,3 +3,4 @@ places/.env
 projet_13/.DS_Store
 .coverage
 .DS_Store
+htmlcov
