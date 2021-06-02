@@ -98,8 +98,8 @@ def get_favorites(request):
 def add_comment(request):
     """ Add a comment for a selected place """
     place_id = request.GET.get("id")
-    user_id = request.user.id
-    user = User.objects.get(id=user_id)
+    place = google_api.get_place_dict(place_id, request.user.id)
+    user = User.objects.get(id=request.user.id)
 
     form = CommentForm()
     if request.method == "POST":
@@ -109,9 +109,12 @@ def add_comment(request):
             user=user,
             body=body
             )
-        return render(request, 'index.html')
+        context={'place': place,
+                'my_lat': request.GET.get("lat"),
+                'my_lng': request.GET.get("lng")}
+        return render(request, 'places/place_details.html', context=context)
 
-    context = {"form": form}    
+    context = {"form": form, 'place': place}    
     return render(request, "places/add_comment.html", context=context)
 
 

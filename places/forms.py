@@ -5,7 +5,7 @@ class CommentForm(forms.Form):
     # body = forms.Textarea(attrs={'class': 'form-control'})
     body = forms.CharField(
         max_length=20,
-        widget=forms.TextInput(
+        widget=forms.Textarea(
             attrs={
             "id":"pseudo",
             "class": "form-control",
