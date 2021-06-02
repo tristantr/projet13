@@ -4,7 +4,7 @@ from accounts.models import Comment
 class CommentForm(forms.Form):
     # body = forms.Textarea(attrs={'class': 'form-control'})
     body = forms.CharField(
-        max_length=20,
+        max_length=1000,
         widget=forms.Textarea(
             attrs={
             "id":"pseudo",

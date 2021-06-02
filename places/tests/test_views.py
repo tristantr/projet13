@@ -41,26 +41,26 @@ class FavoritesView(TestCase):
 
 ### Uncomment the following tests and use your own Google Key 
 
-# class PlaceView(TestCase):
-#     def test_get_search_result(self):
-#         """ Test the search section """
-#         response = self.client.get(reverse("search_results"),{
-#             'q': '30 Avenue Daumesnil, Paris, France',
-#             'type': 'bakery',
-#             'distance': 400
-#             })
-#         self.assertEqual(response.status_code, 200)    
-#         self.assertTemplateUsed(response, "places/results.html")
+class PlaceView(TestCase):
+    def test_get_search_result(self):
+        """ Test the search section """
+        response = self.client.get(reverse("search_results"),{
+            'q': '30 Avenue Daumesnil, Paris, France',
+            'type': 'bakery',
+            'distance': 400
+            })
+        self.assertEqual(response.status_code, 200)    
+        self.assertTemplateUsed(response, "places/results.html")
 
 
-#     def test_get_place_details(self):
-#         """ Test that the get method to access a product details works well"""
-#         response = self.client.get(reverse("place_details"), {
-#             'id': 'ChIJXYCkv2dt5kcRZs2yU8Iyx9U',
-#             'coordonates': "{'lat': 48.865794, 'lng': 2.4415082}"}
-#             )
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, "places/place_details.html")
+    def test_get_place_details(self):
+        """ Test that the get method to access a product details works well"""
+        response = self.client.get(reverse("place_details"), {
+            'id': 'ChIJXYCkv2dt5kcRZs2yU8Iyx9U',
+            'coordonates': "{'lat': 48.865794, 'lng': 2.4415082}"}
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "places/place_details.html")
 
 class CommentView(TestCase):
     @classmethod
@@ -83,11 +83,11 @@ class CommentView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "places/add_comment.html")
 
-    def test_add_comment(self):
-        """ Test that comments are successfully added """  
-        data = {'body': 'Excellentes baguettes !'}       
-        response = self.client.post("add_comment", data)
-        self.assertEqual(response.status_code, 200)
+    # def test_add_comment(self):
+    #     """ Test that comments are successfully added """  
+    #     data = {'body': 'Excellentes baguettes !'}       
+    #     response = self.client.post("add_comment", data)
+    #     self.assertEqual(response.status_code, 200)
 
 
          
