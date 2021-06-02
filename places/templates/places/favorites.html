@@ -28,7 +28,10 @@
 </div>
 {% else %}
 <div class="row d-flex justify-content-center">
-    <p> Votre liste de lieux favoris est vide ! </p>
+	<div>
+    	<h5 class="card-title">Votre liste de favoris est vide !</h5>
+		<a class="btn btn-primary" href="{% url 'index'%}">Faire une recherche</a>
+	</div>
 </div>
 {% endif %}
 

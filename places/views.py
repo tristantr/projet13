@@ -14,6 +14,8 @@ from datetime import datetime
 from .constants import PLACES
 
 from accounts.models import Favorite, Comment, User
+from django.contrib.auth.decorators import login_required
+
 
 env = environ.Env()
 environ.Env.read_env()
@@ -62,6 +64,7 @@ def get_place_details(request):
 
     return render(request, "places/place_details.html", context=context)
 
+@login_required
 def manage_favorites(request):
     """ Handle favorite section"""
     if request.method == 'POST' and request.is_ajax:
@@ -80,6 +83,7 @@ def manage_favorites(request):
                 ) 
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
+@login_required
 def get_favorites(request):
     """ Display favorites """
     user = request.user.id
@@ -94,21 +98,20 @@ def get_favorites(request):
 
     return render(request, "places/favorites.html", context=context)
 
-
+@login_required
 def add_comment(request):
     """ Add a comment for a selected place """
-    place_id = request.GET.get("id")
-    place = google_api.get_place_dict(place_id, request.user.id)
-    user = User.objects.get(id=request.user.id)
+    place = google_api.get_place_dict(request.GET.get("id"), request.user.id)
 
     form = CommentForm()
     if request.method == "POST":
-        body = request.POST.get("body")
         Comment.objects.create(
-            place=place_id,
-            user=user,
-            body=body
+            place=request.POST.get("id"),
+            user=User.objects.get(id=request.user.id),
+            body=request.POST.get("body")
             )
+        place = google_api.get_place_dict(request.POST.get("id"), request.user.id)
+
         context={'place': place,
                 'my_lat': request.GET.get("lat"),
                 'my_lng': request.GET.get("lng")}

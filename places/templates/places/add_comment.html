@@ -10,6 +10,7 @@
 		<form method="POST">
 			{% csrf_token %}
 			{{ form.body }}
+			<input type="hidden" name="id" value="{{place.id}}">
 			<button class="btn btn-primary my-4"> Envoyer </button>
 		</form>
 	</div>
