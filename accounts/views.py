@@ -54,8 +54,7 @@ def log_user(request):
 @login_required()
 def get_my_account(request):
     """View called when a user wants to access its account details"""
-    current_user = request.user
-    context = {"user": current_user}
+    context = {"user": request.user}
     return render(request, "my_account.html", context)
 
 
