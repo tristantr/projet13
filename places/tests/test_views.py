@@ -5,7 +5,6 @@ from django.contrib import auth
 from ..forms import CommentForm
 
 
-
 class HomePageView(TestCase):
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get("")
@@ -20,14 +19,17 @@ class HomePageView(TestCase):
         self.assertTemplateUsed(response, "index.html")
 
 
-
 class FavoritesView(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.credentials = {"email": "products@gmail.com",
-                            "pseudo": "pseudo",
-                            "password": "password"}
-        cls.user = User.objects.create_user("products@gmail.com", "pseudo", "password")
+        cls.credentials = {
+            "email": "products@gmail.com",
+            "pseudo": "pseudo",
+            "password": "password",
+        }
+        cls.user = User.objects.create_user(
+            "products@gmail.com",
+            "pseudo", "password")
 
     def setUp(self):
         self.client.post(reverse("login"), self.credentials)
@@ -40,7 +42,7 @@ class FavoritesView(TestCase):
         self.assertTemplateUsed(response, "places/favorites.html")
 
 
-### Uncomment the following tests and use your own Google Key 
+### Uncomment the following tests and use your own Google Key
 
 # class PlaceView(TestCase):
 #     def test_get_search_result(self):
@@ -50,12 +52,12 @@ class FavoritesView(TestCase):
 #             'type': 'bakery',
 #             'distance': 400
 #             })
-#         self.assertEqual(response.status_code, 200)    
+#         self.assertEqual(response.status_code, 200)
 #         self.assertTemplateUsed(response, "places/results.html")
 
 
 #     def test_get_place_details(self):
-#         """ Test that the get method to access a product details works well"""
+#         """ Test that the get method to access a place page works well"""
 #         response = self.client.get(reverse("place_details"), {
 #             'id': 'ChIJXYCkv2dt5kcRZs2yU8Iyx9U',
 #             'coordonates': "{'lat': 48.865794, 'lng': 2.4415082}"}
@@ -69,7 +71,10 @@ class FavoritesView(TestCase):
 #         cls.credentials = {"email": "products@gmail.com",
 #                             "pseudo": "pseudo",
 #                             "password": "password"}
-#         cls.user = User.objects.create_user("products@gmail.com", "pseudo", "password")
+#         cls.user = User.objects.create_user(
+#             "products@gmail.com",
+#             "pseudo",
+#             "password")
 
 #     def setUp(self):
 #         self.client.post(reverse("login"), self.credentials)

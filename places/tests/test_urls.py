@@ -22,7 +22,7 @@ class TestUrls(SimpleTestCase):
 
     def test_get_place_details_url_is_resolved(self):
         url = reverse("place_details")
-        self.assertEquals(resolve(url).func, views.get_place_details) 
+        self.assertEquals(resolve(url).func, views.get_place_details)
 
     def test_add_comment_url_is_resolved(self):
         url = reverse("add_comment")

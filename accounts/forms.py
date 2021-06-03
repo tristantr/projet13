@@ -24,12 +24,13 @@ class CreateUserForm(UserCreationForm):
         max_length=20,
         widget=forms.TextInput(
             attrs={
-            "id":"pseudo",
-            "class": "form-control",
-            "placeholder": "Pseudo",
-            "style": "font-size: 1.1rem",
-            }))
-
+                "id": "pseudo",
+                "class": "form-control",
+                "placeholder": "Pseudo",
+                "style": "font-size: 1.1rem",
+            }
+        ),
+    )
 
     password1 = forms.CharField(
         max_length=16,

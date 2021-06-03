@@ -6,8 +6,6 @@ from django.contrib.messages import get_messages
 from accounts.forms import CreateUserForm
 from django.contrib.auth import get_user_model
 
-from django.core import mail 
-
 
 class BaseTest(TestCase):
     def setUp(self):
@@ -15,15 +13,15 @@ class BaseTest(TestCase):
         self.credentials = {
             "email": "user@gmail.com",
             "pseudo": "regular_user",
-            "password": "password"
-            }
+            "password": "password",
+        }
         self.user = User.objects.create_user(**self.credentials)
         return super().setUp()
 
 
 class RegisterTest(BaseTest):
     def test_register_page_url(self):
-        """ Get correct status code and template when calling the URL"""
+        """Get correct status code and template when calling the URL"""
         response = self.client.get(reverse("register"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "register.html")
@@ -41,7 +39,7 @@ class RegisterTest(BaseTest):
         self.assertTrue(form.is_valid())
 
     def test_email_required(self):
-        """ An error occurs if a user does not register with an email"""
+        """An error occurs if a user does not register with an email"""
         data = {
             "email": "test",
             "password1": "VendalTest",
@@ -79,9 +77,7 @@ class RegisterTest(BaseTest):
         form = CreateUserForm(data)
 
         self.assertFalse(form.is_valid())
-        self.assertIn(
-            "password2",
-            form.errors.keys())
+        self.assertIn("password2", form.errors.keys())
         self.assertEqual(
             form.errors["password2"][0],
             "This field is required.")
@@ -103,6 +99,7 @@ class RegisterTest(BaseTest):
         self.assertEqual(users.count(), 2)
         self.assertTemplateUsed(response, "index.html")
 
+
 class LoginTest(BaseTest):
     def test_login_page_url(self):
         """Getet correct status code and template when calling the URL"""
@@ -118,14 +115,17 @@ class LoginTest(BaseTest):
 
     def test_user_does_not_exist(self):
         """A message is returned if email or password are incorrect"""
-        response = self.client.post(
-            reverse("login"),
-            {"email": "not_user@gmail.com", "password": "password"}
-        )
+        response = self.client.post(reverse("login"),
+                                    {"email": "not_user@gmail.com",
+                                    "password": "password"}
+                                    )
         auth.get_user(self.client)
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), "Email OR password is incorrect")
+        self.assertEqual(
+            str(messages[0]),
+            "Email OR password is incorrect")
+
 
 class MyAccountTest(BaseTest):
     def test_my_account_page_url_if_not_logged(self):
@@ -143,4 +143,4 @@ class MyAccountTest(BaseTest):
         auth.get_user(self.client)
         response = self.client.get(reverse("my_account"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "my_account.html")          
+        self.assertTemplateUsed(response, "my_account.html")
