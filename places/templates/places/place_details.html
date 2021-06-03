@@ -36,11 +36,11 @@
 				<a href="#infos" class="nav-link active" role="tab" data-toggle="tab">Informations générales</a>
 			</li>
 			<li class="nav-item">
-				<a href="#comments" class="nav-link" role="tab" data-toggle="tab">Avis SITE</a>
+				<a href="#comments" class="nav-link" role="tab" data-toggle="tab">Avis Hector</a>
 			</li>			
 
 			<li class="nav-item">
-				<a href="#reviews" class="nav-link" role="tab" data-toggle="tab">Commentaires Google</a>
+				<a href="#reviews" class="nav-link" role="tab" data-toggle="tab">Avis Google</a>
 			</li>
 
 		</ul>
@@ -87,7 +87,7 @@
 					    <h5 class="card-title">{{ comment.user }}</h5>
 					    <p>{{ comment.date_added }}</p>
 					    <p>{{ comment.body }}</p>
-					    <p> __________________ </p>
+					    <hr class="divider my-2" />
 		   			</div>
 					</div>					
 					{% endfor %}
@@ -102,7 +102,7 @@
 				    <h5 class="card-title">{{ review.author_name }} - {{ review.rating }}</h5>
 				    <p>{{review.relative_time_description }}</p>
 				    <p>{{ review.text }}</p>
-				    <p> __________________ </p>
+				    <hr class="divider my-2" />
 	   			</div>
 				</div>					
 				{% endfor %}
