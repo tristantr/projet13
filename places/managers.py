@@ -59,7 +59,7 @@ class GoogleApi:
             place['is_favorite'] = True
         else:
             place['is_favorite'] = False
-        return place
+        return place 
 
     def format_datetime(self, datetime):
         opening_hours = []

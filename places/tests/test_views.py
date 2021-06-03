@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from accounts.models import User
 from django.contrib import auth
+from ..forms import CommentForm
 
 
 
@@ -82,14 +83,3 @@ class CommentView(TestCase):
             'my_lng': 2.2822492})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "places/add_comment.html")
-
-    # def test_add_comment(self):
-    #     """ Test that comments are successfully added """  
-    #     data = {'body': 'Excellentes baguettes !'}       
-    #     response = self.client.post("add_comment", data)
-    #     self.assertEqual(response.status_code, 200)
-
-
-         
-
-

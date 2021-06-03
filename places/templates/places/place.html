@@ -18,5 +18,7 @@
 	  </buttton>
 	</div>
 	<input type="hidden" name="id" value="{{ place.id }}">
-	<input type="hidden" name="coordonates" value="{{ coordonates }}">  
+	{% if coordonates %}
+		<input type="hidden" name="coordonates" value="{{ coordonates }}">
+	{% endif %}	
 </form>	

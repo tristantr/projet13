@@ -53,14 +53,19 @@ def get_places(request):
 def get_place_details(request):
     """ Get details of a specific place """
     place_id = request.GET.get("id")
-    coordonates = ast.literal_eval(request.GET.get("coordonates"))
     place = google_api.get_place_dict(place_id, request.user.id)
+    coordonates = request.GET.get("coordonates")
 
-    context = {
-        'place': place, 
-        'my_lat': coordonates['lat'],
-        'my_lng': coordonates['lng']
-        }
+    if coordonates:
+        coordonates = ast.literal_eval(request.GET.get("coordonates"))
+
+        context = {
+            'place': place, 
+            'my_lat': coordonates['lat'],
+            'my_lng': coordonates['lng']
+            }
+    else:
+        context={'place':place}        
 
     return render(request, "places/place_details.html", context=context)
 
@@ -94,7 +99,9 @@ def get_favorites(request):
         place = google_api.get_place_dict(place_id=favorite.place, user_id=user)
         places.append(place)
 
-    context = {'places': places}    
+    context = {
+    'places': places,
+    }  
 
     return render(request, "places/favorites.html", context=context)
 
@@ -103,11 +110,14 @@ def add_comment(request):
     """ Add a comment for a selected place """
     place = google_api.get_place_dict(request.GET.get("id"), request.user.id)
 
-    form = CommentForm()
+    form = CommentForm(
+        initial={
+        'id': request.GET.get("id"),
+        })
     if request.method == "POST":
         Comment.objects.create(
             place=request.POST.get("id"),
-            user=User.objects.get(id=request.user.id),
+            user=request.user,
             body=request.POST.get("body")
             )
         place = google_api.get_place_dict(request.POST.get("id"), request.user.id)

@@ -2,7 +2,7 @@ from django import forms
 from accounts.models import Comment
 
 class CommentForm(forms.Form):
-    # body = forms.Textarea(attrs={'class': 'form-control'})
+    place = forms.IntegerField(widget=forms.HiddenInput())
     body = forms.CharField(
         max_length=1000,
         widget=forms.Textarea(

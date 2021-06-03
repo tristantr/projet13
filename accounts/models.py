@@ -122,7 +122,7 @@ class Comment(models.Model):
     objects = CommentManager()
 
     def __str__(self):
-        return '%s - %s' % (self.user, self.date_added)
+        return '%s - %s %s' % (self.user, self.body, self.date_added)
 
     def get_comment(self):
         comment = {
